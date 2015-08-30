@@ -7,5 +7,6 @@ urlpatterns = [
     url(r'^$', RedirectView.as_view(pattern_name='login', permanent=True)),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^login/$', login, name='login'),
-    url(r'^logout/$', logout, name='logout')
+    url(r'^logout/$', logout, name='logout'),
+    url(r'^events/$', include('events.urls', namespace='events')),
 ]
