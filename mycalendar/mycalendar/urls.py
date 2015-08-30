@@ -10,3 +10,4 @@ urlpatterns = [
     url(r'^logout/$', logout, name='logout'),
     url(r'^events/$', include('events.urls', namespace='events')),
 ]
+
