@@ -15,7 +15,6 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
@@ -37,6 +36,15 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # utility packages
+    'colorful',
+    'bootstrapform',
+
+    # apps
+    'core',
+    'users',
+    'events',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -105,7 +113,26 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
 
+STATIC_PATH = os.path.join(BASE_DIR, 'static')
+
+#STATIC_ROOT = STATIC_PATH
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+STATICFILES_DIRS = (
+    STATIC_PATH,
+)
+
+
+# User model configuration
+
+AUTH_USER_MODEL = 'users.User'
+
+# Login urls
+
+LOGIN_REDIRECT_URL = '/login/'
 
 try:
     from .local_settings import *
