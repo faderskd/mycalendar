@@ -1,7 +1,11 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
+from django.core.exceptions import ValidationError
+
+import datetime
 from colorful.fields import RGBColorField
+
 from core.models import TimeStampedModel
 
 
@@ -43,6 +47,10 @@ class Event(TimeStampedModel):
         verbose_name= _('category'),
         related_name='events'
     )
+
+    def clean(self):
+        if self.start - self.end > datetime.timedelta(0):
+            raise ValidationError(_('End date must end after start date'))
 
     def __str__(self):
         return self.title

@@ -1,7 +1,8 @@
 from django.conf.urls import url
 
-from . import views
+from .views import EventCalendarView, EventJSONListView
 
 urlpatterns = [
-    url(r'^$', views.EventCalendarView.as_view(), name='events-calendar'),
+    url(r'^$', EventCalendarView.as_view(), name='events-calendar'),
+    url(r'^list-json/$', EventJSONListView.as_view(), name='list-json')
 ]
