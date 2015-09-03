@@ -107,7 +107,7 @@ USE_I18N = True
 
 USE_L10N = False
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Date formats
@@ -135,9 +135,11 @@ STATICFILES_DIRS = (
 
 AUTH_USER_MODEL = 'users.User'
 
-# Login urls
+# Authentication urls
 
-LOGIN_REDIRECT_URL = '/login/'
+LOGIN_URL = '/login/'
+LOGOUT_URL = '/logout/'
+LOGIN_REDIRECT_URL = '/events/'
 
 try:
     from .local_settings import *

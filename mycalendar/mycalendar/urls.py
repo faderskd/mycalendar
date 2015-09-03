@@ -1,6 +1,6 @@
 from django.conf.urls import include, url
 from django.contrib import admin
-from django.contrib.auth.views import login, logout
+from core.views import login, logout
 from django.views.generic.base import RedirectView
 
 urlpatterns = [

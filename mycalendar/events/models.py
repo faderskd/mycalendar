@@ -49,8 +49,12 @@ class Event(TimeStampedModel):
     )
 
     def clean(self):
-        if self.start - self.end > datetime.timedelta(0):
-            raise ValidationError(_('End date must end after start date'))
+        if self.start and self.end and self.start - self.end > datetime.timedelta(0):
+            raise ValidationError(_("End date mustn't be before start date"))
+
+    def get_absolute_url(self):
+        from django.core.urlresolvers import reverse
+        return reverse('events:edit', args=[str(self.id)])
 
     def __str__(self):
         return self.title
