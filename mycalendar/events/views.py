@@ -10,6 +10,7 @@ from braces.views import LoginRequiredMixin
 
 from .models import Event
 from .serializers import EventSerializer
+from .forms import EventForm
 
 
 class EventJSONListView(ListAPIView):
@@ -43,7 +44,8 @@ class EventCalendarView(LoginRequiredMixin, generic.ListView):
 
 class EventCreateView(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
     model = Event
-    fields = ['title', 'description', 'start', 'end', 'category']
+    form_class = EventForm
+    template_name = 'events/event_create_form.html'
     success_message = _('Event created')
     success_url = reverse_lazy('events:create')
 
@@ -54,6 +56,6 @@ class EventCreateView(LoginRequiredMixin, SuccessMessageMixin, generic.CreateVie
 
 class EventUpdateView(LoginRequiredMixin, SuccessMessageMixin, generic.UpdateView):
     model = Event
-    fields = ['title', 'description', 'start', 'end', 'category']
+    form_class = EventForm
+    template_name = 'events/event_edit_form.html'
     success_message = _('Event updated')
-    success_url = reverse_lazy('events:update')

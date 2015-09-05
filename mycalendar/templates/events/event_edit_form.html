@@ -1,0 +1,28 @@
+{% extends '__base.html' %}
+
+{% load i18n bootstrap staticfiles %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{% static "css/bootstrap-datepicker.min.css" %}" type="text/css"/>
+    {{ block.super }}
+{% endblock %}
+
+{% block javascript %}
+    {{ block.super }}
+    <script src="{% static 'js/moment.min.js' %}" type="text/javascript"></script>
+    <script src="{% static "js/bootstrap-datepicker.min.js" %}" type="text/javascript"></script>
+    <script src="{% static "js/events/event_form.js" %}" type="text/javascript"></script>
+{% endblock %}
+
+{% block right_menu %}
+    {% include 'events/_right_menu.html' %}
+{% endblock %}
+
+{% block content %}
+    {% include '_messages.html' %}
+
+    <form action="{% url 'events:edit' form.instance.pk %}" method="post">
+        {% include '_form.html' %}
+        <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+    </form>
+{% endblock %}0
