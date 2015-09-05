@@ -13,3 +13,4 @@ class EventForm(forms.ModelForm):
             'end': forms.DateTimeInput(attrs={'class': 'datepicker form-control'}),
             'category': forms.Select(attrs={'class': 'form-control'}),
         }
+
