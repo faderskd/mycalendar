@@ -1,0 +1,22 @@
+{% extends '__base.html' %}
+
+{% load i18n bootstrap staticfiles %}
+
+{% block right_menu %}
+    {% include 'events/_right_menu.html' %}
+{% endblock %}
+
+{% block header %}
+    {% trans 'Delete confirmation' %}
+{% endblock %}
+
+{% block content %}
+    {% include '_messages.html' %}
+
+    <form action="" method="post">
+        {% csrf_token %}
+        <p> {% trans "Are you sure you want to delete event" %} "{{ event.title }}" ? </p>
+        <button type="submit" class="btn btn-primary">{% trans "Confirm" %}</button>
+    </form>
+{% endblock %}
+

@@ -9,7 +9,7 @@ class EventSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Event
-        fields = ('start', 'end', 'color', 'slug', 'url')
+        fields = ('title', 'start', 'end', 'color', 'slug', 'url')
 
     def get_color(self, instance):
         return instance.category.color

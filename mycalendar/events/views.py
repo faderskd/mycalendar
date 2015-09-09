@@ -72,6 +72,7 @@ class EventUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
         return event.user == user
 
     def get_object(self, queryset=None):
+        super(EventUpdateView, self).get_object()
         username = self.kwargs.get('username')
         slug = self.kwargs.get('slug')
         return get_object_or_404(Event, user__username=username, slug=slug)
@@ -80,6 +81,21 @@ class EventUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
         kwargs = super(EventUpdateView, self).get_form_kwargs()
         kwargs.update({'user': self.request.user})
         return kwargs
+
+
+class EventDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
+    model = Event
+    template_name = 'events/event_confirm_delete.html'
+    success_url = reverse_lazy('events:events-calendar')
+
+    def test_func(self, user):
+        event = self.get_object()
+        return event.user == user
+
+    def get_object(self, queryset=None):
+        username = self.kwargs.get('username')
+        slug = self.kwargs.get('slug')
+        return get_object_or_404(Event, user__username=username, slug=slug)
 
 
 class EventCategoryCreateView(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
