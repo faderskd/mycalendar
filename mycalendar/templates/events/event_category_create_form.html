@@ -1,0 +1,21 @@
+{% extends '__base.html' %}
+
+{% load i18n bootstrap staticfiles %}
+
+{% block right_menu %}
+    {% include 'events/_right_menu.html' %}
+{% endblock %}
+
+{% block header %}
+    {% trans 'Add event category' %}
+{% endblock %}
+
+{% block content %}
+    {% include '_messages.html' %}
+
+    <form action="{% url 'events:categories:create-category' %}" method="post">
+        {% csrf_token %}
+        {{ form | bootstrap }}
+        <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+    </form>
+{% endblock %}

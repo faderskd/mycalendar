@@ -18,10 +18,14 @@
     {% include 'events/_right_menu.html' %}
 {% endblock %}
 
+{% block header %}
+    {% trans 'Edit event' %}
+{% endblock %}
+
 {% block content %}
     {% include '_messages.html' %}
 
-    <form action="{% url 'events:edit' form.instance.pk %}" method="post">
+    <form action="{% url 'events:edit-event' form.instance.user.username form.instance.slug %}" method="post">
         {% include '_form.html' %}
         <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
     </form>
