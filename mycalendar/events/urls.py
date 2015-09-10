@@ -1,11 +1,13 @@
 from django.conf.urls import url, include
 
-from .views import EventCalendarView, EventJSONListView, EventCreateView, EventUpdateView, \
-    EventCategoryCreateView, EventDeleteView
+from .views import (EventCalendarView, EventJSONListView, EventCreateView, EventUpdateView, EventDeleteView,
+                    EventCategoryListView, EventCategoryCreateView, EventCategoryUpdateView, EventCategoryDeleteView)
 
 event_categories_urlpatterns = [
+    url(r'^$', EventCategoryListView.as_view(), name='categories-list'),
     url(r'^create/$', EventCategoryCreateView.as_view(), name='create-category'),
-    #url(r'^(?P<username>[\w]+)/(?P<slug>[-\w]+)/edit/$', EventCategoryUpdateView.as_view(), name='edit-category'),
+    url(r'^(?P<username>[\w]+)/(?P<slug>[-\w]+)/edit/$', EventCategoryUpdateView.as_view(), name='edit-category'),
+    url(r'^(?P<username>[\w]+)/(?P<slug>[-\w]+)/delete/$', EventCategoryDeleteView.as_view(), name='delete-category'),
 ]
 
 urlpatterns = [

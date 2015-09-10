@@ -1,0 +1,43 @@
+{% extends '__base.html' %}
+
+{% load staticfiles i18n %}
+
+{% block stylesheets %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'css/events/event-category-list.css' %}"/>
+{% endblock %}
+
+{% block right_menu %}
+    {% include 'events/_right_menu.html' %}
+{% endblock %}
+
+{% block content %}
+    <div class="table-responsive col-md-8">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th class="col-md-6"> {% trans "Name" %}</th>
+                <th class="col-md-4"> {% trans "Number of attached events" %}</th>
+                <th class="col-md-1"> {% trans "Edit" %}</th>
+                <th class="col-md-1"> {% trans "Delete" %}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for category in event_category_list %}
+                <tr>
+                    <td>
+                        {{ category.name }}
+                    </td>
+                    <td class="text-center">{{ category.events.all.count }}</td>
+                    <td><a href="{% url 'events:categories:edit-category' category.user.username category.slug %}"><span
+                            class="glyphicon glyphicon-pencil icon"></span></a></td>
+                    <td>
+                        <a href="{% url 'events:categories:delete-category' category.user.username category.slug %}"><span
+                                class="glyphicon glyphicon-remove icon"></span></a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

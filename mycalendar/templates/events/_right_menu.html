@@ -1,7 +1,8 @@
 {% load i18n %}
 
 <ul class="nav  nav-pills nav-stacked">
-    <li><a href="{% url 'events:events-calendar' %}">{% trans "Events list" %}</a></li>
+    <li><a href="{% url 'events:events-calendar' %}">{% trans "Events" %}</a></li>
+    <li><a href="{% url 'events:categories:categories-list' %}">{% trans "Event categories" %}</a></li>
     <li><a href="{% url 'events:create-event' %}">{% trans "Add event" %}</a></li>
     <li><a href="#">{% trans "Add friend's event" %}</a></li>
     <li><a href="{% url 'events:categories:create-category' %}">{% trans "Add category" %}</a></li>

@@ -12,7 +12,7 @@
     {{ block.super }}
     <script src="{% static 'js/moment.min.js' %}" type="text/javascript"></script>
     <script src="{% static "js/bootstrap-datepicker.min.js" %}" type="text/javascript"></script>
-    <script src="{% static "js/events/event_form.js" %}" type="text/javascript"></script>
+    <script src="{% static "js/events/event_edit_form.js" %}" type="text/javascript"></script>
 {% endblock %}
 
 {% block right_menu %}
@@ -30,6 +30,6 @@
     <form action="{% url 'events:edit-event' form.instance.user.username form.instance.slug %}" method="post">
         {% include '_form.html' %}
         <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
-        <a href="{% url 'events:delete-event' form.instance.user.username form.instance.slug %}" <button class="btn btn-danger">{% trans "Delete" %}</button></a>
+        <a class="btn btn-danger" href="{% url 'events:delete-event' form.instance.user.username form.instance.slug %}">{% trans "Delete" %}</a>
     </form>
 {% endblock %}

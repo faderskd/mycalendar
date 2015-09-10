@@ -87,6 +87,7 @@ class EventDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteVie
     model = Event
     template_name = 'events/event_confirm_delete.html'
     success_url = reverse_lazy('events:events-calendar')
+    context_object_name = 'event'
 
     def test_func(self, user):
         event = self.get_object()
@@ -96,6 +97,15 @@ class EventDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteVie
         username = self.kwargs.get('username')
         slug = self.kwargs.get('slug')
         return get_object_or_404(Event, user__username=username, slug=slug)
+
+
+class EventCategoryListView(LoginRequiredMixin, SuccessMessageMixin, generic.ListView):
+    model = EventCategory
+    template_name = 'events/event_category_list.html'
+    context_object_name = 'event_category_list'
+
+    def get_queryset(self):
+        return self.request.user.event_categories.all()
 
 
 class EventCategoryCreateView(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
@@ -134,3 +144,19 @@ class EventCategoryUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMe
         kwargs = super(EventCategoryUpdateView, self).get_form_kwargs()
         kwargs.update({'user': self.request.user})
         return kwargs
+
+
+class EventCategoryDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
+    model = EventCategory
+    template_name = 'events/event_category_confirm_delete.html'
+    success_url = reverse_lazy('events:categories:categories-list')
+    context_object_name = 'event_category'
+
+    def test_func(self, user):
+        event_category = self.get_object()
+        return event_category.user == user
+
+    def get_object(self, queryset=None):
+        username = self.kwargs.get('username')
+        slug = self.kwargs.get('slug')
+        return get_object_or_404(EventCategory, user__username=username, slug=slug)

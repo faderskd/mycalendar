@@ -13,7 +13,7 @@
 {% block content %}
     <form action="" method="post">
         {% csrf_token %}
-        <p> {% trans "Are you sure you want to delete event" %} "{{ event.title }}" ? </p>
+        <p> {% trans "Are you sure you want to delete event category" %} "{{ event_category.name }}" ? </p>
         <button type="submit" class="btn btn-primary">{% trans "Confirm" %}</button>
     </form>
 {% endblock %}
