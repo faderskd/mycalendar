@@ -1,7 +1,8 @@
 from django.conf.urls import include, url
 from django.contrib import admin
-from core.views import login, logout
 from django.views.generic.base import RedirectView
+
+from core.views import login, logout
 
 urlpatterns = [
     url(r'^$', RedirectView.as_view(pattern_name='login', permanent=True)),

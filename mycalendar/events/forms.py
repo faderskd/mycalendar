@@ -6,15 +6,15 @@ from django.utils.text import slugify
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
-from .models import Event, EventCategory
+from . import models
 
 
 class EventForm(forms.ModelForm):
-    category = forms.ModelChoiceField(queryset=Event.objects.none(),
+    category = forms.ModelChoiceField(queryset=models.Event.objects.none(),
                                       widget=widgets.Select(attrs={'class': 'form-control'}))
 
     class Meta:
-        model = Event
+        model = models.Event
         exclude = ('user', 'slug')
         widgets = {
             'title': forms.DateTimeInput(attrs={'class': 'form-control'}),
@@ -35,11 +35,13 @@ class EventForm(forms.ModelForm):
 
         instance.slug = slugify(instance.title)
 
-        max_length = Event._meta.get_field('slug').max_length
+        max_length = models.Event._meta.get_field('slug').max_length
         instance.slug = orig = slugify(instance.title)[:max_length]
 
         for x in itertools.count(1):
-            if not Event.objects.filter(slug=instance.slug, user=instance.user).exclude(id=self.instance.id).exists():
+            event_for_user_exists = models.Event.objects.filter(slug=instance.slug, user=instance.user).\
+                exclude(id=self.instance.id).exists()
+            if not event_for_user_exists:
                 break
             instance.slug = "%s-%d" % (orig[:max_length - len(str(x)) - 1], x)
 
@@ -49,7 +51,7 @@ class EventForm(forms.ModelForm):
 
 class EventCategoryForm(forms.ModelForm):
     class Meta:
-        model = EventCategory
+        model = models.EventCategory
         exclude = ('user', 'slug')
 
     def __init__(self, *args, **kwargs):
@@ -57,11 +59,17 @@ class EventCategoryForm(forms.ModelForm):
         super(EventCategoryForm, self).__init__(*args, **kwargs)
 
     def clean(self):
-        name = self.cleaned_data.get('name')
         super(EventCategoryForm, self).clean()
-        if self.instance.id and name and EventCategory.objects.filter(name=name, user=self.user).exclude(self.instance.id).exists():
+        name = self.cleaned_data.get('name')
+        any_other_category_exists = models.EventCategory.objects.filter(name=name, user=self.user).\
+            exclude(id=self.instance.id).exists()
+        any_category_exists = models.EventCategory.objects.filter(name=name, user=self.user).exists()
+
+        # user editing category
+        if self.instance.id and name and any_other_category_exists:
             raise ValidationError(_('Category already exists'))
-        elif name and EventCategory.objects.filter(name=name, user=self.user).exists():
+        # user creating category
+        elif not self.instance.id and name and any_category_exists:
             raise ValidationError(_('Category already exists'))
 
     def save(self, commit=True):
@@ -69,11 +77,12 @@ class EventCategoryForm(forms.ModelForm):
 
         instance.slug = slugify(instance.name)
 
-        max_length = Event._meta.get_field('slug').max_length
+        max_length = models.Event._meta.get_field('slug').max_length
         instance.slug = orig = slugify(instance.name)[:max_length]
 
         for x in itertools.count(1):
-            if not EventCategory.objects.filter(slug=instance.slug, user=instance.user).exclude(id=self.instance.id).exists():
+            if not models.EventCategory.objects.filter(slug=instance.slug, user=instance.user).\
+                    exclude(id=self.instance.id).exists():
                 break
             instance.slug = "%s-%d" % (orig[:max_length - len(str(x)) - 1], x)
 

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Event
+from . import models
 
 
 class EventSerializer(serializers.ModelSerializer):
@@ -8,7 +8,7 @@ class EventSerializer(serializers.ModelSerializer):
     url = serializers.SerializerMethodField()
 
     class Meta:
-        model = Event
+        model = models.Event
         fields = ('title', 'start', 'end', 'color', 'slug', 'url')
 
     def get_color(self, instance):

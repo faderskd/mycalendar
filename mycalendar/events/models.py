@@ -30,7 +30,7 @@ class EventCategory(TimeStampedModel):
         unique_together = ['name', 'user']
 
     def get_absolute_url(self):
-        return reverse('events:edit-category', kwargs={'username': self.user.username, 'slug': self.slug})
+        return reverse('events:categories:edit-category', kwargs={'username': self.user.username, 'slug': self.slug})
 
     def __str__(self):
         return self.name
