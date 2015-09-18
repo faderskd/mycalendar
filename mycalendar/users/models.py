@@ -4,7 +4,5 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class User(AbstractUser):
-    pass
-
     def __str__(self):
         return self.username

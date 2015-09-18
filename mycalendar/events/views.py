@@ -10,13 +10,13 @@ from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from braces.views import LoginRequiredMixin, UserPassesTestMixin
 
-from . import models
-from . import serializers
-from . import forms
+from .models import Event, EventCategory
+from .serializers import EventSerializer
+from .forms import EventForm, EventCategoryForm
 
 
 class EventJSONListView(ListAPIView):
-    serializer_class = serializers.EventSerializer
+    serializer_class = EventSerializer
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
@@ -37,7 +37,7 @@ class EventJSONListView(ListAPIView):
 
 
 class EventCalendarView(LoginRequiredMixin, generic.ListView):
-    model = models.Event
+    model = Event
     context_object_name = 'event_list'
     template_name = 'events/events_calendar.html'
 
@@ -46,8 +46,8 @@ class EventCalendarView(LoginRequiredMixin, generic.ListView):
 
 
 class EventCreateView(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
-    model = models.Event
-    form_class = forms.EventForm
+    model = Event
+    form_class = EventForm
     template_name = 'events/event_create_form.html'
     success_url = reverse_lazy('events:create-event')
     success_message = _('Event created')
@@ -63,8 +63,8 @@ class EventCreateView(LoginRequiredMixin, SuccessMessageMixin, generic.CreateVie
 
 
 class EventUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, generic.UpdateView):
-    model = models.Event
-    form_class = forms.EventForm
+    model = Event
+    form_class = EventForm
     template_name = 'events/event_edit_form.html'
     success_message = _('Event updated')
 
@@ -76,7 +76,7 @@ class EventUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
         super(EventUpdateView, self).get_object()
         username = self.kwargs.get('username')
         slug = self.kwargs.get('slug')
-        return get_object_or_404(models.Event, user__username=username, slug=slug)
+        return get_object_or_404(Event, user__username=username, slug=slug)
 
     def get_form_kwargs(self):
         kwargs = super(EventUpdateView, self).get_form_kwargs()
@@ -85,7 +85,7 @@ class EventUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
 
 
 class EventDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
-    model = models.Event
+    model = Event
     template_name = 'events/event_confirm_delete.html'
     success_url = reverse_lazy('events:events-calendar')
     context_object_name = 'event'
@@ -97,11 +97,11 @@ class EventDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteVie
     def get_object(self, queryset=None):
         username = self.kwargs.get('username')
         slug = self.kwargs.get('slug')
-        return get_object_or_404(models.Event, user__username=username, slug=slug)
+        return get_object_or_404(Event, user__username=username, slug=slug)
 
 
 class EventCategoryListView(LoginRequiredMixin, SuccessMessageMixin, generic.ListView):
-    model = models.EventCategory
+    model = EventCategory
     context_object_name = 'event_category_list'
     template_name = 'events/event_category_list.html'
 
@@ -110,8 +110,8 @@ class EventCategoryListView(LoginRequiredMixin, SuccessMessageMixin, generic.Lis
 
 
 class EventCategoryCreateView(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
-    model = models.EventCategory
-    form_class = forms.EventCategoryForm
+    model = EventCategory
+    form_class = EventCategoryForm
     template_name = 'events/event_category_create_form.html'
     success_url = reverse_lazy('events:categories:create-category')
     success_message = _('Event category created')
@@ -127,8 +127,8 @@ class EventCategoryCreateView(LoginRequiredMixin, SuccessMessageMixin, generic.C
 
 
 class EventCategoryUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, generic.UpdateView):
-    model = models.EventCategory
-    form_class = forms.EventCategoryForm
+    model = EventCategory
+    form_class = EventCategoryForm
     template_name = 'events/event_category_edit_form.html'
     success_message = _('Event category updated')
 
@@ -139,7 +139,7 @@ class EventCategoryUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMe
     def get_object(self, queryset=None):
         username = self.kwargs.get('username')
         slug = self.kwargs.get('slug')
-        return get_object_or_404(models.EventCategory, user__username=username, slug=slug)
+        return get_object_or_404(EventCategory, user__username=username, slug=slug)
 
     def get_form_kwargs(self):
         kwargs = super(EventCategoryUpdateView, self).get_form_kwargs()
@@ -148,7 +148,7 @@ class EventCategoryUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMe
 
 
 class EventCategoryDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
-    model = models.EventCategory
+    model = EventCategory
     template_name = 'events/event_category_confirm_delete.html'
     success_url = reverse_lazy('events:categories:categories-list')
     context_object_name = 'event_category'
@@ -160,4 +160,4 @@ class EventCategoryDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.D
     def get_object(self, queryset=None):
         username = self.kwargs.get('username')
         slug = self.kwargs.get('slug')
-        return get_object_or_404(models.EventCategory, user__username=username, slug=slug)
+        return get_object_or_404(EventCategory, user__username=username, slug=slug)
