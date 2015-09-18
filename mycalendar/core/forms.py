@@ -1,17 +1,23 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth.forms import AuthenticationForm
 
-from users import models as users_models
+from django.contrib.auth import get_user_model
 
 
 class RegistrationForm(forms.ModelForm):
-    email = forms.EmailField(required=True, max_length=254, label=_("Email"))
-    password1 = forms.CharField(widget=forms.widgets.PasswordInput, min_length=6, label=_("Password"))
-    password2 = forms.CharField(widget=forms.widgets.PasswordInput, min_length=6, label=_("Password (again)"))
+    username = forms.EmailField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': _('Username')}),
+                                max_length=254)
+    email = forms.EmailField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': _('Email')}),
+                             required=True, max_length=254)
+    password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control',
+                                                                  'placeholder': _('Password')}), min_length=6)
+    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control',
+                                                           'placeholder': _('Password (again)')}), min_length=6)
 
     class Meta:
-        model = users_models.User
+        model = get_user_model()
         fields = ('username', 'email', 'password1', 'password2')
 
     def clean(self):
@@ -30,6 +36,9 @@ class RegistrationForm(forms.ModelForm):
         return user
 
 
-
+class LoginForm(AuthenticationForm):
+    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': _('Username')}),
+                               max_length=254)
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': _('Password')}))
 
 

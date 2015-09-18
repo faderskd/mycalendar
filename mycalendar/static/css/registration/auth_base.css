@@ -1,0 +1,35 @@
+body {
+  /*padding-top: 40px;*/
+  padding-bottom: 40px;
+  background-color: #eee;
+}
+
+.navigator {
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.jumbotron {
+  background-color: #d4d4d4;
+}
+
+.navbar-default {
+    background-color: #122b40;
+    border-color: #122b40;
+}
+
+.navbar-default .navbar-brand {
+    color: white;
+}
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+    color: #bce8f1;
+}
+
+.navbar-default .navbar-nav > li > a {
+    color: white;
+}
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+    color: #bce8f1;
+}

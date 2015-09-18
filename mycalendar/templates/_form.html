@@ -6,7 +6,9 @@
 {% endfor %}
 {% for field in form %}
     <div class="form-group {% if field.errors %}has-error{% endif %}">
-        <label class="control-label" for="{{ field.id_for_label }}">{{ field.html_name | title }}</label>
+        {% if labels %}
+            <label class="control-label" for="{{ field.id_for_label }}">{{ field.html_name | title }}</label>
+        {% endif %}
         {% if 'class' in field.field.widget.attrs and 'datepicker' in field.field.widget.attrs.class %}
             <div class="col-md-6 datepicker-widget input-group date">
                 {{ field }}

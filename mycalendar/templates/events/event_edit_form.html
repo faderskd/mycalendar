@@ -28,7 +28,7 @@
 
 
     <form action="{% url 'events:edit-event' form.instance.user.username form.instance.slug %}" method="post">
-        {% include '_form.html' %}
+        {% include '_form.html' with form=form labels=True %}
         <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
         <a class="btn btn-danger" href="{% url 'events:delete-event' form.instance.user.username form.instance.slug %}">{% trans "Delete" %}</a>
     </form>

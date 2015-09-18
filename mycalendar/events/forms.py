@@ -22,7 +22,6 @@ class EventForm(forms.ModelForm):
             'description': forms.Textarea(attrs={'class': 'form-control'}),
             'start': forms.DateTimeInput(attrs={'class': 'datepicker form-control'}),
             'end': forms.DateTimeInput(attrs={'class': 'datepicker form-control'}),
-            'category': forms.Select(),
         }
 
     def __init__(self, *args, **kwargs):
@@ -70,7 +69,6 @@ class EventCategoryForm(forms.ModelForm):
     def clean(self):
         super(EventCategoryForm, self).clean()
         name = self.cleaned_data.get('name')
-
         # If EventCategory object is edited (instance.id other than None) exlude this one and
         # check if another exists in database.
         any_other_category_exists = EventCategory.objects.filter(name=name, user=self.user). \
@@ -95,10 +93,8 @@ class EventCategoryForm(forms.ModelForm):
         # Cuts slug content to be proper size
         instance.slug = orig = slugify(instance.name)[:max_length]
 
-        # Checks if slug (saved in orig temporary variable) exists already in database.
-        # If exists adds "-number" to the end of slug, reserve uniqueness. Number is generated
-        # as long as not exists in database. For example if slug "hello world" exists in database
-        # and max slugfield length is 11 it will be replaced by hello wor-1
+
+
         for x in itertools.count(1):
             if not EventCategory.objects.filter(slug=instance.slug, user=instance.user). \
                     exclude(id=self.instance.id).exists():

@@ -6,7 +6,7 @@ from django.views.generic import CreateView
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse_lazy
 
-from .forms import RegistrationForm
+from .forms import RegistrationForm, LoginForm
 from users import models as users_models
 
 
@@ -16,7 +16,7 @@ def login(request, **kwargs):
     """
     if request.user.is_authenticated():
         return redirect(settings.LOGIN_REDIRECT_URL)
-    return auth_login(request, **kwargs)
+    return auth_login(request, authentication_form=LoginForm, **kwargs)
 
 
 def logout(request):

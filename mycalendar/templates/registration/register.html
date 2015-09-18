@@ -6,15 +6,26 @@
 
 {% block stylesheets %}
     {{ block.super }}
-    <link href="{% static 'css/registration/register.css' %}" rel="stylesheet">
+    <link href="{% static 'css/registration/auth_base.css' %}" rel="stylesheet">
 {% endblock %}
 
-{% block header %}{% trans "Sign up for MyCalendar" %}{% endblock %}
-
 {% block content %}
-    <form method="post" action="">
-        {% csrf_token %}
-        {{ form | bootstrap }}
-        <button type="submit" class="btn btn-primary form-control">{% trans "Sign up" %}</button>
-    </form>
+    <div class="container col-md-6 col-md-offset-1">
+        <div class="jumbotron">
+            <h1>Join MyCalendar</h1>
+
+            <p>{% lorem %}</p>
+            <a class="btn btn-primary btn-lg" href="{% url 'register' %}" role="button">Read more...</a>
+        </div>
+    </div>
+    <div class="col-md-4">
+            <h1>{% trans "Sign up for MyCalendar" %}</h1>
+            <br>
+
+            <form method="post" action="">
+                {% csrf_token %}
+                {% include '_form.html' with form=form labels=False %}
+                <button type="submit" class="btn btn-primary form-control">{% trans "Sign up" %}</button>
+            </form>
+    </div>
 {% endblock %}
