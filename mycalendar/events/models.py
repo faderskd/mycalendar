@@ -12,6 +12,9 @@ from core.models import TimeStampedModel
 
 
 class EventCategory(TimeStampedModel):
+    """
+    Category to enable grouping users events
+    """
     name = models.CharField(
         _('name'),
         max_length=255,
@@ -27,6 +30,8 @@ class EventCategory(TimeStampedModel):
     slug = models.SlugField()
 
     class Meta:
+        verbose_name = _('EventCategory')
+        verbose_name_plural = _('EventCategories')
         unique_together = ['name', 'user']
 
     def get_absolute_url(self):
@@ -37,6 +42,9 @@ class EventCategory(TimeStampedModel):
 
 
 class Event(TimeStampedModel):
+    """
+    Event for particular user
+    """
     title = models.CharField(
         _('title'),
         max_length=255,
@@ -64,6 +72,8 @@ class Event(TimeStampedModel):
     slug = models.SlugField()
 
     class Meta:
+        verbose_name = _('Event')
+        verbose_name_plural = _('Events')
         unique_together = ['user', 'slug']
 
     def clean(self):

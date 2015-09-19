@@ -1,0 +1,38 @@
+{% extends '__base.html' %}
+
+{% load staticfiles i18n %}
+
+{% block right_menu %}
+    {% include 'friends/_right_menu.html' %}
+{% endblock %}
+
+{% block content %}
+    <div class="table-responsive col-md-8">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th class="col-md-2"> {% trans "" %}</th>
+                <th class="col-md-3"> {% trans "Username" %}</th>
+                <th class="col-md-3"> {% trans "Friendship creation date" %}</th>
+                <th class="col-md-3"> {% trans "Full name" %}</th>
+                <th class="col-md-1"> {% trans "Delete" %}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for friend in friendship_list %}
+                <tr>
+                    <td>
+                        {% if friend.photo %}
+                        {% else %}
+                        {% endif %}
+                    </td>
+                    <td>{{ friend.username }}</td>
+                    <td>{{ friend.get_friendship_object }}</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

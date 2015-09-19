@@ -11,4 +11,5 @@ urlpatterns = [
     url(r'^login/$', login, name='login'),
     url(r'^logout/$', logout, name='logout'),
     url(r'^events/', include('events.urls', namespace='events')),
+    url(r'^friends/', include('friends.urls', namespace='friends')),
 ]
