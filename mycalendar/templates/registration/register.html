@@ -22,7 +22,7 @@
             <h1>{% trans "Sign up for MyCalendar" %}</h1>
             <br>
 
-            <form method="post" action="">
+            <form method="post">
                 {% csrf_token %}
                 {% include '_form.html' with form=form labels=False %}
                 <button type="submit" class="btn btn-primary form-control">{% trans "Sign up" %}</button>

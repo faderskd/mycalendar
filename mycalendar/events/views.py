@@ -51,7 +51,7 @@ class EventCreateView(LoginRequiredMixin, SuccessMessageMixin, generic.CreateVie
     model = Event
     form_class = EventForm
     template_name = 'events/event_create_form.html'
-    success_url = reverse_lazy('events:create-event')
+    success_url = reverse_lazy('events:create')
     success_message = _('Event created')
 
     def get_form_kwargs(self):
@@ -93,7 +93,7 @@ class EventUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
 class EventDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
     model = Event
     template_name = 'events/event_confirm_delete.html'
-    success_url = reverse_lazy('events:events-calendar')
+    success_url = reverse_lazy('events:calendar')
     context_object_name = 'event'
 
     def test_func(self, user):
@@ -123,7 +123,7 @@ class EventCategoryCreateView(LoginRequiredMixin, SuccessMessageMixin, generic.C
     model = EventCategory
     form_class = EventCategoryForm
     template_name = 'events/event_category_create_form.html'
-    success_url = reverse_lazy('events:categories:create-category')
+    success_url = reverse_lazy('events:categories:create')
     success_message = _('Event category created')
 
     def get_form_kwargs(self):
@@ -164,7 +164,7 @@ class EventCategoryUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMe
 class EventCategoryDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
     model = EventCategory
     template_name = 'events/event_category_confirm_delete.html'
-    success_url = reverse_lazy('events:categories:categories-list')
+    success_url = reverse_lazy('events:categories:list')
     context_object_name = 'event_category'
 
     def test_func(self, user):

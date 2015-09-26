@@ -29,11 +29,11 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{% url 'events:events-calendar' %}">MyCalendar</a>
+            <a class="navbar-brand" href="{% url 'events:calendar' %}">MyCalendar</a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a href="{% url 'friends:friends-list' %}">Friends</a></li>
+                <li><a href="{% url 'friends:list' %}">Friends</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="navbar-text">{% trans "Signed in as" %} {{ request.user.username }}</li>

@@ -29,10 +29,10 @@
                         {{ category.name }}
                     </td>
                     <td class="text-center">{{ category.events.all.count }}</td>
-                    <td><a href="{% url 'events:categories:edit-category' category.user.username category.slug %}"><span
+                    <td><a href="{% url 'events:categories:edit' category.user.username category.slug %}"><span
                             class="glyphicon glyphicon-pencil icon"></span></a></td>
                     <td>
-                        <a href="{% url 'events:categories:delete-category' category.user.username category.slug %}"><span
+                        <a href="{% url 'events:categories:delete' category.user.username category.slug %}"><span
                                 class="glyphicon glyphicon-remove icon"></span></a></td>
                 </tr>
             {% endfor %}

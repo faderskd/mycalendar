@@ -11,10 +11,11 @@
 {% endblock %}
 
 {% block content %}
-    <form action="" method="post">
+    <form method="post">
         {% csrf_token %}
-        <p> {% trans "Are you sure you want to delete event category" %} "{{ event_category.name }}" ? </p>
+        <p> {% trans "Are you sure you want to delete event category" %} "{{ event_category }}" ? </p>
         <button type="submit" class="btn btn-primary">{% trans "Confirm" %}</button>
+        <a href="{% url 'events:categories:list' %}" class="btn btn-default">{% trans "Cancel" %}</a>
     </form>
 {% endblock %}
 

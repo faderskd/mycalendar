@@ -3,14 +3,18 @@
     height: 50px;
 }
 
+.search-container {
+    width: 450px;
+}
+
 .search-results {
-    width: 564px;
+    width: 380px;
     position: fixed;
     z-index: 10;
 }
 
 .search-result {
-    background-color: white;
+    background: white;
 }
 
 .search-result > span {

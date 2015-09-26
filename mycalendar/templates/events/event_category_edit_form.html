@@ -13,7 +13,7 @@
 {% block content %}
     {% include '_messages.html' %}
 
-    <form action="{% url 'events:categories:edit-category' form.instance.user.username form.instance.slug %}" method="post">
+    <form method="post">
         {% csrf_token %}
         {{ form | bootstrap }}
         <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>

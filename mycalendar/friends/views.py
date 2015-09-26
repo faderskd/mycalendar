@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
+from django.shortcuts import get_object_or_404
 
 from braces.views import LoginRequiredMixin
 from rest_framework.generics import ListAPIView
@@ -31,6 +32,16 @@ class FriendsListView(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self):
         return self.request.user.friends.all()
+
+
+class FriendDetailView(LoginRequiredMixin, generic.DetailView):
+    model = get_user_model()
+    template_name = 'friends/friend_details.html'
+
+    def get_object(self, queryset=None):
+        username = self.request.GET.get('username')
+        obj = get_object_or_404(get_user_model(), username=username)
+        return obj
 
 
 class FriendshipRequestCreateView(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):

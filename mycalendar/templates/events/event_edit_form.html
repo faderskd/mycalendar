@@ -3,8 +3,7 @@
 {% load i18n bootstrap staticfiles %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{% static "css/bootstrap-datepicker.min.css" %}" type="text/css"
-          xmlns="http://www.w3.org/1999/html"/>
+    <link rel="stylesheet" href="{% static "css/bootstrap-datepicker.min.css" %}" type="text/css" />
     {{ block.super }}
 {% endblock %}
 
@@ -27,9 +26,9 @@
     {% include '_messages.html' %}
 
 
-    <form action="{% url 'events:edit-event' form.instance.user.username form.instance.slug %}" method="post">
+    <form method="post">
         {% include '_form.html' with form=form labels=True %}
         <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
-        <a class="btn btn-danger" href="{% url 'events:delete-event' form.instance.user.username form.instance.slug %}">{% trans "Delete" %}</a>
+        <a class="btn btn-danger" href="{% url 'events:delete' form.instance.user.username form.instance.slug %}">{% trans "Delete" %}</a>
     </form>
 {% endblock %}

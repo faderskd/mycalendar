@@ -25,7 +25,7 @@
 {% block content %}
     {% include '_messages.html' %}
 
-    <form action="{% url 'events:create-event' %}" method="post">
+    <form method="post">
         {% include '_form.html' with form=form labels=True %}
         <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
     </form>

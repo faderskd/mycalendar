@@ -11,10 +11,11 @@
 {% endblock %}
 
 {% block content %}
-    <form action="" method="post">
+    <form method="post">
         {% csrf_token %}
-        <p> {% trans "Are you sure you want to delete event" %} "{{ event.title }}" ? </p>
+        <p> {% trans "Are you sure you want to delete event" %} "{{ event }}" ? </p>
         <button type="submit" class="btn btn-primary">{% trans "Confirm" %}</button>
+        <a href="{% url 'events:calendar' %}" class="btn btn-default">{% trans "Cancel" %}</a>
     </form>
 {% endblock %}
 
