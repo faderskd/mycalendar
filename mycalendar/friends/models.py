@@ -26,13 +26,22 @@ class Friendship(TimeStampedModel):
         unique_together = ('from_user', 'to_user')
 
     def __str__(self):
-        return "From:{from_user} To:{to_user}".format(from_user=self.from_user, to_user=self.to_user)
+        return "From:{from_user} To:{to_user}".format(
+            from_user=self.from_user,
+            to_user=self.to_user
+        )
 
     @classmethod
     def are_friends(cls, user1, user2):
-        relation1 = cls.objects.filter(from_user=user1, to_user=user2).exists()
-        relation2 = cls.objects.filter(from_user=user2, to_user=user1).exists()
-        return relation1 and relation2
+        relation1_exists = cls.objects.filter(
+            from_user=user1,
+            to_user=user2
+        ).exists()
+        relation2_exists = cls.objects.filter(
+            from_user=user2,
+            to_user=user1
+        ).exists()
+        return relation1_exists and relation2_exists
 
 
 class FriendshipRequest(TimeStampedModel):
@@ -49,10 +58,6 @@ class FriendshipRequest(TimeStampedModel):
         verbose_name=_('receiver'),
         related_name='received_friendships_requests'
     )
-    viewed = models.BooleanField(
-        _('viewed'),
-        default=False
-    )
 
     class Meta:
         verbose_name = _('FriendshipRequest')
@@ -60,12 +65,14 @@ class FriendshipRequest(TimeStampedModel):
         ordering = ('created',)
 
     def __str__(self):
-        return "From:{sender} To:{receiver}".format(sender=self.sender, receiver=self.receiver)
+        return "From:{sender} To:{receiver}".format(
+            sender=self.sender,
+            receiver=self.receiver
+        )
 
     def accept(self):
         #TODO send notification to sender about acceptation
-        Friendship.objects.create(from_user=self.sender, to_user=self.receiver)
-        Friendship.objects.create(from_user=self.receiver, to_user=self.sender)
+        self.receiver.add_friend(self.sender)
         self.delete()
 
     def reject(self):

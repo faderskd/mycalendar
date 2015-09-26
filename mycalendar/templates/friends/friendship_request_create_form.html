@@ -1,0 +1,14 @@
+{% extends '__base.html' %}
+
+{% load staticfiles i18n friends_extras %}
+
+{% block right_menu %}
+    {% include 'friends/_right_menu.html' %}
+{% endblock %}
+
+{% block content %}
+    <form action="" method="post">
+        {{ form }}
+        <button type="submit" class="btn btn-primary">{% trans "Send invitation" %}</button>
+    </form>
+{% endblock %}

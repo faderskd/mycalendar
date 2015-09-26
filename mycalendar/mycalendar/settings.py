@@ -14,6 +14,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DATA_DIR = os.path.dirname(BASE_DIR)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
@@ -123,7 +124,7 @@ MEDIA_URL = '/media/'
 
 STATIC_PATH = os.path.join(BASE_DIR, 'static')
 
-#STATIC_ROOT = STATIC_PATH
+STATIC_ROOT = os.path.join(DATA_DIR, 'static')
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 

@@ -7,7 +7,7 @@ from django.contrib.auth import get_user_model
 
 
 class RegistrationForm(forms.ModelForm):
-    username = forms.EmailField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': _('Username')}),
+    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': _('Username')}),
                                 max_length=254)
     email = forms.EmailField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': _('Email')}),
                              required=True, max_length=254)

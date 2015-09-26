@@ -47,8 +47,12 @@ class EventForm(forms.ModelForm):
         # as long as not exists in database. For example if slug "hello world" exists in database
         # and max slugfield length is 11 it will be replaced by hello wor-1
         for x in itertools.count(1):
-            event_for_user_exists = Event.objects.filter(slug=instance.slug, user=instance.user). \
-                exclude(id=self.instance.id).exists()
+            event_for_user_exists = Event.objects.filter(
+                slug=instance.slug,
+                user=instance.user
+            ).exclude(
+                id=self.instance.id
+            ).exists()
             if not event_for_user_exists:
                 break
             instance.slug = "%s-%d" % (orig[:max_length - len(str(x)) - 1], x)
@@ -71,10 +75,17 @@ class EventCategoryForm(forms.ModelForm):
         name = self.cleaned_data.get('name')
         # If EventCategory object is edited (instance.id other than None) exlude this one and
         # check if another exists in database.
-        any_other_category_exists = EventCategory.objects.filter(name=name, user=self.user). \
-            exclude(id=self.instance.id).exists()
+        any_other_category_exists = EventCategory.objects.filter(
+            name=name,
+            user=self.user
+        ).exclude(
+            id=self.instance.id
+        ).exists()
         # If EventCategory is create just check if another exists in database.
-        any_category_exists = EventCategory.objects.filter(name=name, user=self.user).exists()
+        any_category_exists = EventCategory.objects.filter(
+            name=name,
+            user=self.user
+        ).exists()
 
         # User editing category
         if self.instance.id and name and any_other_category_exists:
@@ -96,8 +107,12 @@ class EventCategoryForm(forms.ModelForm):
 
 
         for x in itertools.count(1):
-            if not EventCategory.objects.filter(slug=instance.slug, user=instance.user). \
-                    exclude(id=self.instance.id).exists():
+            if not EventCategory.objects.filter(
+                    slug=instance.slug,
+                    user=instance.user
+            ).exclude(
+                id=self.instance.id
+            ).exists():
                 break
             instance.slug = "%s-%d" % (orig[:max_length - len(str(x)) - 1], x)
 

@@ -23,7 +23,9 @@ class EventJSONListView(ListAPIView):
         start = self.request.GET.get('start', '')
         end = self.request.GET.get('end', '')
         if self._dates_are_valid(start, end):
-            return self.request.user.events.filter(start__range=[start, end])
+            return self.request.user.events.filter(
+                start__range=[start, end]
+            )
         return self.request.user.events.all()
 
     @staticmethod
@@ -76,7 +78,11 @@ class EventUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
         super(EventUpdateView, self).get_object()
         username = self.kwargs.get('username')
         slug = self.kwargs.get('slug')
-        return get_object_or_404(Event, user__username=username, slug=slug)
+        return get_object_or_404(
+            Event,
+            user__username=username,
+            slug=slug
+        )
 
     def get_form_kwargs(self):
         kwargs = super(EventUpdateView, self).get_form_kwargs()
@@ -97,7 +103,11 @@ class EventDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteVie
     def get_object(self, queryset=None):
         username = self.kwargs.get('username')
         slug = self.kwargs.get('slug')
-        return get_object_or_404(Event, user__username=username, slug=slug)
+        return get_object_or_404(
+            Event,
+            user__username=username,
+            slug=slug
+        )
 
 
 class EventCategoryListView(LoginRequiredMixin, SuccessMessageMixin, generic.ListView):
@@ -139,7 +149,11 @@ class EventCategoryUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMe
     def get_object(self, queryset=None):
         username = self.kwargs.get('username')
         slug = self.kwargs.get('slug')
-        return get_object_or_404(EventCategory, user__username=username, slug=slug)
+        return get_object_or_404(
+            EventCategory,
+            user__username=username,
+            slug=slug
+        )
 
     def get_form_kwargs(self):
         kwargs = super(EventCategoryUpdateView, self).get_form_kwargs()
@@ -160,4 +174,8 @@ class EventCategoryDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.D
     def get_object(self, queryset=None):
         username = self.kwargs.get('username')
         slug = self.kwargs.get('slug')
-        return get_object_or_404(EventCategory, user__username=username, slug=slug)
+        return get_object_or_404(
+            EventCategory,
+            user__username=username,
+            slug=slug
+        )

@@ -61,7 +61,7 @@ target/
 
 # Pycharm environmets directory
 .idea/
-
+media
 # local environments settings
 mycalendar/mycalendar/local_settings.py
 
