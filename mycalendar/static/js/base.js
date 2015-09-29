@@ -1,5 +1,5 @@
-//$(function () {
-//    $('.datepicker-widget').datetimepicker({
-//        format: 'YYYY-MM-DD H:m'
-//    });
-//});
+$(function () {
+    $('.datepicker-widget').datetimepicker({
+        format: 'YYYY-MM-DD H:m'
+    });
+});
