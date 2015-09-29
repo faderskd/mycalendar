@@ -3,3 +3,11 @@
     padding: 0px;
     margin: 0px;
 }
+
+.content-header {
+    padding-bottom: 20px;
+}
+
+.icon {
+    cursor: pointer;
+}

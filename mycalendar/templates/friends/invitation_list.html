@@ -1,0 +1,48 @@
+{% extends '__base.html' %}
+
+{% load staticfiles i18n %}
+
+{% block right_menu %}
+    {% include 'friends/_right_menu.html' %}
+{% endblock %}
+
+{% block header %}
+    {% trans 'Invitations' %}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="table-responsive col-md-8">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th class="col-md-5"> {% trans "From" %}</th>
+                    <th class="col-md-2"> {% trans "Date" %}</th>
+                    <th class="col-md-2"> {% trans "Show profile" %}</th>
+                    <th class="col-md-1"> {% trans "Accept" %}</th>
+                    <th class="col-md-1"> {% trans "Reject" %}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for invitation in invitation_list %}
+                    <tr>
+                        <td>
+                            {{ invitation.sender }}
+                        </td>
+                        <td>{{ invitation.created | date:"SHORT_DATE_FORMAT" }}</td>
+                        <td class="text-center"><a><span
+                                class="glyphicon glyphicon-user icon"></span></a></td>
+                        <td>
+                            <a><span
+                                    class="glyphicon glyphicon-ok icon"></span></a></td>
+                        <td>
+                            <a><span
+                                    class="glyphicon glyphicon-remove icon"></span></a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

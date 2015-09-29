@@ -41,7 +41,7 @@ class EventJSONListView(ListAPIView):
 class EventCalendarView(LoginRequiredMixin, generic.ListView):
     model = Event
     context_object_name = 'event_list'
-    template_name = 'events/events_calendar.html'
+    template_name = 'events/event_calendar.html'
 
     def get_queryset(self):
         return self.request.user.events.all()

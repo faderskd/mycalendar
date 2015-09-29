@@ -6,7 +6,7 @@ $(function() {
             type: "GET",
             url: "/friends/search-list-json/",
             data: {
-                'username':$('.search-engine').val()
+                'qs':$('.search-engine').val()
             },
             success: appendSearchResults
         });

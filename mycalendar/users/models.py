@@ -22,6 +22,9 @@ class User(AbstractUser):
         symmetrical=False
     )
 
+    def is_friend(self, user):
+        return Friendship.are_friends(self, user)
+
     def add_friend(self, user):
         relationship, created = Friendship.objects.get_or_create(
             from_user=self,

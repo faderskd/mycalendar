@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Friendship, FriendshipRequest
+from .models import Friendship, Invitation
 
 admin.site.register(Friendship)
-admin.site.register(FriendshipRequest)
+admin.site.register(Invitation)

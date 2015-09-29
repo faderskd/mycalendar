@@ -44,7 +44,7 @@ class Friendship(TimeStampedModel):
         return relation1_exists and relation2_exists
 
 
-class FriendshipRequest(TimeStampedModel):
+class Invitation(TimeStampedModel):
     """
     Represents friendship invitation from sender to receiver.
     """
@@ -60,8 +60,8 @@ class FriendshipRequest(TimeStampedModel):
     )
 
     class Meta:
-        verbose_name = _('FriendshipRequest')
-        verbose_name_plural = _('FriendshipRequests')
+        verbose_name = _('Invitation')
+        verbose_name_plural = _('Invitations')
         ordering = ('created',)
 
     def __str__(self):

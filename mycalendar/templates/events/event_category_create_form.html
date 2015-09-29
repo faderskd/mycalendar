@@ -11,11 +11,16 @@
 {% endblock %}
 
 {% block content %}
-    {% include '_messages.html' %}
+    <div class="row">
+        <div class="col-md-8">
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form | bootstrap }}
-        <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
-    </form>
+            {% include '_messages.html' %}
+
+            <form method="post">
+                {% csrf_token %}
+                {{ form | bootstrap }}
+                <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+            </form>
+        </div>
+    </div>
 {% endblock %}

@@ -13,4 +13,4 @@ class UserSerializer(serializers.ModelSerializer):
     def get_image_url(self, instance):
         if instance.photo:
             return instance.photo.url
-        return static('images/default_profile_photo.jpg')
+        return static('images/default_profile_photo.png')

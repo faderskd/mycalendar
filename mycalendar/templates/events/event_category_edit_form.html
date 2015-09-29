@@ -11,11 +11,17 @@
 {% endblock %}
 
 {% block content %}
-    {% include '_messages.html' %}
+    <div class="row">
+        <div class="col-md-8">
+            {% include '_messages.html' %}
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form | bootstrap }}
-        <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
-    </form>
+            <form method="post">
+                {% csrf_token %}
+                {{ form | bootstrap }}
+                <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+                <a class="btn btn-danger"
+                   href="{% url 'events:categories:delete' form.instance.user.username form.instance.slug %}">{% trans "Delete" %}</a>
+            </form>
+        </div>
+    </div>
 {% endblock %}

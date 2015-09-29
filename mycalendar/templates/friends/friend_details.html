@@ -1,9 +1,86 @@
 {% extends '__base.html' %}
 
+{% load staticfiles i18n friends_extras %}
+
+{% block stylesheets %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static "css/friends/friend_details.css" %}" type="text/css"/>
+{% endblock %}
+
+{% block javascript %}
+    {{ block.super }}
+    <script src="{% static "js/friends/friend_details.js" %}" type="text/javascript"></script>
+{% endblock %}
+
 {% block right_menu %}
     {% include 'friends/_right_menu.html' %}
 {% endblock %}
 
 {% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 toppad">
 
+
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">User information</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-3 col-lg-3 " align="center"><img alt="User Pic"
+                                                                                src="{% if object.image %} {{ object.image.url }} {% else %}
+                                                                                {% static 'images/default_profile_photo.png' %}"
+                                                                                {% endif %}
+                                                                                class="img-circle img-responsive"></div>
+                            <div class=" col-md-9 col-lg-9 ">
+                                <table class="table table-user-information">
+                                    <tbody>
+                                    <tr>
+                                        <td>{% trans "Username" %}</td>
+                                        <td>{{ object.username }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>{% trans "Joined date" %}</td>
+                                        <td>{{ object.date_joined | date:"SHORT_DATE_FORMAT" }}</td>
+                                    </tr>
+
+                                    <tr>
+                                    <tr>
+                                        <td>First name</td>
+                                        <td>{% if object.first_name %} {{ object.first_name }} {% else %} - {% endif %}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Last name</td>
+                                        <td>{% if object.last_name %} {{ object.last_name }} {% else %} - {% endif %}</td>
+                                    </tr>
+
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <a data-toggle="tooltip" type="button"
+                           class="btn btn-primary"><i class="glyphicon glyphicon-envelope"></i> {% trans "Send message" %} </a>
+                        {% is_friend object as is_user_friend %}
+                        {% if is_user_friend %}
+                            <span class="pull-right">
+                            <a data-toggle="tooltip" type="button"
+                               class="btn btn-danger">{% trans "Delete from friends" %}</a>
+                        </span>
+                        {% else %}
+                            <span class="pull-right">
+                            <a data-toggle="tooltip" type="button"
+                               class="btn btn-primary">{% trans "Invite to friends" %}</a>
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

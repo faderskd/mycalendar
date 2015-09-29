@@ -14,3 +14,8 @@ def get_friendship_object(context, to_user):
     )
     return friendship
 
+
+@register.assignment_tag(takes_context=True)
+def is_friend(context, other_user):
+    user = context['user']
+    return user.is_friend(other_user)

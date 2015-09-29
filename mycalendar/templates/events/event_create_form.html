@@ -23,10 +23,14 @@
 {% endblock %}
 
 {% block content %}
-    {% include '_messages.html' %}
+    <div class="row">
+        <div class="col-md-8">
+            {% include '_messages.html' %}
 
-    <form method="post">
-        {% include '_form.html' with form=form labels=True %}
-        <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
-    </form>
+            <form method="post">
+                {% include '_form.html' with form=form labels=True %}
+                <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+            </form>
+        </div>
+    </div>
 {% endblock %}
