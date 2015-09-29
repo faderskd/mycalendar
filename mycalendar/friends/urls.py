@@ -5,6 +5,7 @@ from . import views
 invitations_patterns = [
     url(r'^$', views.InvitationList.as_view(), name='list'),
     url(r'^create/$', views.InvitationCreateView.as_view(), name='create'),
+    url(r'^(?P<username>\w+)/accept/$', views.InvitationAcceptView.as_view(), name='accept'),
 ]
 
 urlpatterns = [

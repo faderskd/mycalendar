@@ -1,0 +1,35 @@
+{% load i18n %}
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th class="col-md-5"> {% trans "From" %}</th>
+        <th class="col-md-2"> {% trans "Date" %}</th>
+        <th class="col-md-2"> {% trans "Show profile" %}</th>
+        <th class="col-md-1"> {% trans "Accept" %}</th>
+        <th class="col-md-1"> {% trans "Reject" %}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for invitation in invitation_list %}
+        <tr>
+            <td>
+                {{ invitation.sender }}
+            </td>
+            <td>{{ invitation.created | date:"SHORT_DATE_FORMAT" }}</td>
+            <td class="text-center"><a><span
+                    class="glyphicon glyphicon-user icon"></span></a></td>
+            <td>
+                <form action="{% url 'friends:invitations:accept' invitation.sender %}" method="post">
+                    {% csrf_token %}
+                    <a><span
+                            class="glyphicon glyphicon-ok icon icon-submit"></span></a>
+                </form>
+            </td>
+            <td>
+                <a><span
+                        class="glyphicon glyphicon-remove icon"></span></a></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
