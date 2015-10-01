@@ -1,0 +1,25 @@
+{% extends '__base.html' %}
+
+{% load i18n bootstrap staticfiles %}
+
+{% block right_menu %}
+    {% include 'friends/_right_menu.html' %}
+{% endblock %}
+
+{% block header %}
+    {% trans 'Delete confirmation' %}
+{% endblock %}
+
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    {% ifequal invitation.sender user %}
+        <p> {% trans "Are you sure you want to delete invitation to user " %} "{{ invitation.receiver }}" ? </p>
+    {% else %}
+    <p> {% trans "Are you sure you want to reject invitation from user " %} "{{ invitation.sender }}" ? </p>
+    {% endifequal %}
+    <button type="submit" class="btn btn-primary">{% trans "Confirm" %}</button>
+    <a href="{% url 'friends:invitations:list' %}" class="btn btn-default">{% trans "Cancel" %}</a>
+</form>
+{% endblock %}
+

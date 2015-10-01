@@ -7,11 +7,6 @@
     <link rel="stylesheet" href="{% static "css/friends/friend_details.css" %}" type="text/css"/>
 {% endblock %}
 
-{% block javascript %}
-    {{ block.super }}
-    <script src="{% static "js/friends/friend_details.js" %}" type="text/javascript"></script>
-{% endblock %}
-
 {% block right_menu %}
     {% include 'friends/_right_menu.html' %}
 {% endblock %}
@@ -24,11 +19,11 @@
 
                 <div class="panel panel-info">
                     <div class="panel-heading">
-                        <h3 class="panel-title">User information</h3>
+                        <h3 class="panel-title">{% trans "User information" %}</h3>
                     </div>
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-md-3 col-lg-3 " align="center"><img alt="User Pic"
+                            <div class="col-md-3 col-lg-3 " align="center"><img alt="User Picture"
                                                                                 src="{% if object.image %} {{ object.image.url }} {% else %}
                                                                                 {% static 'images/default_profile_photo.png' %}"
                                                                                 {% endif %}
@@ -48,11 +43,13 @@
                                     <tr>
                                     <tr>
                                         <td>First name</td>
-                                        <td>{% if object.first_name %} {{ object.first_name }} {% else %} - {% endif %}</td>
+                                        <td>{% if object.first_name %} {{ object.first_name }} {% else %}
+                                            - {% endif %}</td>
                                     </tr>
                                     <tr>
                                         <td>Last name</td>
-                                        <td>{% if object.last_name %} {{ object.last_name }} {% else %} - {% endif %}</td>
+                                        <td>{% if object.last_name %} {{ object.last_name }} {% else %}
+                                            - {% endif %}</td>
                                     </tr>
 
                                     </tr>
@@ -64,20 +61,27 @@
                         </div>
                     </div>
                     <div class="panel-footer">
-                        <a data-toggle="tooltip" type="button"
-                           class="btn btn-primary"><i class="glyphicon glyphicon-envelope"></i> {% trans "Send message" %} </a>
-                        {% is_friend object as is_user_friend %}
-                        {% if is_user_friend %}
-                            <span class="pull-right">
-                            <a data-toggle="tooltip" type="button"
-                               class="btn btn-danger">{% trans "Delete from friends" %}</a>
-                        </span>
-                        {% else %}
-                            <span class="pull-right">
-                            <a data-toggle="tooltip" type="button"
-                               class="btn btn-primary">{% trans "Invite to friends" %}</a>
-                        </span>
-                        {% endif %}
+                        {% ifnotequal user object %}
+                            <button type="button"
+                                    class="btn btn-primary"><i
+                                    class="glyphicon glyphicon-envelope"></i> {% trans "Send message" %}</button>
+                            {% is_friend object as is_friend %}
+                            {% if is_friend %}
+                                <form>
+                                    <button type="submit"
+                                            class="btn btn-danger right-button">{% trans "Delete from friends" %}</button>
+                                </form>
+                            {% else %}
+                                {% invitation_sent_or_received object as invitation_sent_or_received %}
+                                {% if not invitation_sent_or_received %}
+                                    <form action="{% url 'friends:invitations:create' object.username %}" method="post">
+                                        {% csrf_token %}
+                                        <button data-toggle="tooltip" type="submit"
+                                                class="btn btn-primary pull-right right-button">{% trans "Invite to friends" %}</button>
+                                    </form>
+                                {% endif %}
+                            {% endif %}
+                        {% endifnotequal %}
                     </div>
                 </div>
             </div>

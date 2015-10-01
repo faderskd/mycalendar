@@ -2,13 +2,13 @@ from django.views import generic
 from django.views.generic.detail import SingleObjectMixin
 from django.contrib.auth import get_user_model
 from django.contrib import messages
-from django.contrib.messages.views import SuccessMessageMixin
 from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
-from django.shortcuts import get_object_or_404
-from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404, redirect
+from django.db.models import Q
+from django.http import HttpResponseForbidden
 
-from braces.views import LoginRequiredMixin
+from braces.views import LoginRequiredMixin, UserPassesTestMixin
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 
@@ -44,23 +44,14 @@ class FriendDetailView(LoginRequiredMixin, generic.DetailView):
 
     def get_object(self, queryset=None):
         username = self.kwargs.get('username')
-        obj = get_object_or_404(get_user_model(), username=username)
+        obj = get_object_or_404(
+            get_user_model(),
+            username=username
+        )
         return obj
 
 
-class InvitationCreateView(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
-    model = Invitation
-    fields = ('receiver',)
-    template_name = 'friends/invitation_form.html'
-    success_url = reverse_lazy('friends:list')
-    success_message = _('Invitation sent')
-
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super(InvitationCreateView, self).form_valid(form)
-
-
-class InvitationList(LoginRequiredMixin, generic.ListView):
+class InvitationListView(LoginRequiredMixin, generic.ListView):
     template_name = 'friends/invitation_list.html'
     context_object_name = 'invitation_list'
 
@@ -68,7 +59,7 @@ class InvitationList(LoginRequiredMixin, generic.ListView):
         status = self.request.GET.get('status')
         if status not in ['sent', 'received']:
             return redirect(reverse_lazy('friends:invitations:list') + '?status=received')
-        return super(InvitationList, self).get(request, *args, **kwargs)
+        return super(InvitationListView, self).get(request, *args, **kwargs)
 
     def get_queryset(self):
         status = self.request.GET.get('status')
@@ -83,6 +74,19 @@ class InvitationList(LoginRequiredMixin, generic.ListView):
         return invitations
 
 
+class InvitationCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.View):
+    def post(self, request, *args, **kwargs):
+        username = self.kwargs.get('username')
+        user = get_object_or_404(get_user_model(), username=username)
+        logged_user = self.request.user
+        # Deny sent invitation if was sent to user or received from user.
+        if logged_user.invitation_sent_or_received(user) or logged_user == user:
+            return HttpResponseForbidden()
+        logged_user.sent_invitation(user)
+        messages.success(request, _('Invitation to user {user} sent').format(user=user))
+        return redirect(reverse_lazy('friends:invitations:list') + '?status=sent')
+
+
 class InvitationAcceptView(LoginRequiredMixin, SingleObjectMixin, generic.View):
     def post(self, request, *args, **kwargs):
         invitation = self.get_object()
@@ -92,5 +96,24 @@ class InvitationAcceptView(LoginRequiredMixin, SingleObjectMixin, generic.View):
 
     def get_object(self, queryset=None):
         sender = self.kwargs.get('username')
-        obj = get_object_or_404(Invitation, sender__username=sender, receiver=self.request.user)
+        obj = get_object_or_404(
+            Invitation,
+            sender__username=sender,
+            receiver=self.request.user
+        )
+        return obj
+
+
+class InvitationDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Invitation
+    template_name = 'friends/invitation_confirm_delete.html'
+    success_url = reverse_lazy('friends:invitations:list')
+
+    def get_object(self, queryset=None):
+        username = self.kwargs.get('username')
+        obj = get_object_or_404(
+            Invitation,
+            Q(sender=self.request.user, receiver__username=username) |
+            Q(sender__username=username, receiver=self.request.user)
+        )
         return obj

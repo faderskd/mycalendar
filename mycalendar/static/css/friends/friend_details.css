@@ -31,3 +31,12 @@
 .toppad
 {margin-top:20px;
 }
+
+.right-button {
+    position: relative;
+    top: -34px;
+}
+
+.panel-footer {
+    height: 55px;
+}

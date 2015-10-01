@@ -3,7 +3,7 @@ from django.db.models import Q
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import ugettext_lazy as _
 
-from friends.models import Friendship
+from friends.models import Friendship, Invitation
 
 
 class User(AbstractUser):
@@ -45,6 +45,16 @@ class User(AbstractUser):
             Q(from_user=self, to_user=user) |
             Q(from_user=user, to_user=self)
         ).delete()
+
+    def invitation_sent_or_received(self, user):
+        return Invitation.invitation_exists(self, user)
+
+    def send_invitation(self, user):
+        invitation, created = Invitation.objects.get_or_create(
+            sender=self,
+            receiver=user
+        )
+        return invitation
 
     def __str__(self):
         return self.username

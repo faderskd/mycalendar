@@ -33,6 +33,10 @@ class Friendship(TimeStampedModel):
 
     @classmethod
     def are_friends(cls, user1, user2):
+        """
+        Check if friendship from user1 to user2 or from
+        user2 to user1 exists
+        """
         relation1_exists = cls.objects.filter(
             from_user=user1,
             to_user=user2
@@ -78,3 +82,19 @@ class Invitation(TimeStampedModel):
     def reject(self):
         #TODO send notifiaction to sender about rejection
         self.delete()
+
+    @classmethod
+    def invitation_exists(cls, user1, user2):
+        """
+        Check if invitation from user1 to user2 or from
+        user2 to user1 exists
+        """
+        cond1 = Invitation.objects.filter(
+            sender=user1,
+            receiver=user2
+        ).exists()
+        cond2 = Invitation.objects.filter(
+            sender=user2,
+            receiver=user1
+        ).exists()
+        return cond1 or cond2
