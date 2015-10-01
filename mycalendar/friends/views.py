@@ -20,12 +20,16 @@ from users.serializers import UserSerializer
 
 class FriendJSONSearchListView(ListAPIView):
     serializer_class = UserSerializer
-    permission_classes = (IsAuthenticated, IsRequestAjax)
+    permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         qs = self.request.GET.get('qs')
         search_results = search_users(qs)
         return search_results
+
+    model = get_user_model()
+    context_object_name = 'friend_list'
+    template_name = 'friends/friend_list.html'
 
 
 class FriendListView(LoginRequiredMixin, generic.ListView):
@@ -74,7 +78,7 @@ class InvitationListView(LoginRequiredMixin, generic.ListView):
         return invitations
 
 
-class InvitationCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.View):
+class InvitationCreateView(LoginRequiredMixin, generic.View):
     def post(self, request, *args, **kwargs):
         username = self.kwargs.get('username')
         user = get_object_or_404(get_user_model(), username=username)
@@ -82,9 +86,9 @@ class InvitationCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.View
         # Deny sent invitation if was sent to user or received from user.
         if logged_user.invitation_sent_or_received(user) or logged_user == user:
             return HttpResponseForbidden()
-        logged_user.sent_invitation(user)
+        logged_user.send_invitation(user)
         messages.success(request, _('Invitation to user {user} sent').format(user=user))
-        return redirect(reverse_lazy('friends:invitations:list') + '?status=sent')
+        return redirect(reverse_lazy('friends:details', kwargs={'username': user.username}))
 
 
 class InvitationAcceptView(LoginRequiredMixin, SingleObjectMixin, generic.View):
