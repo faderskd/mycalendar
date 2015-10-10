@@ -20,7 +20,7 @@ from users.serializers import UserSerializer
 
 class FriendJSONSearchListView(ListAPIView):
     serializer_class = UserSerializer
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated, IsRequestAjax)
 
     def get_queryset(self):
         qs = self.request.GET.get('qs')
