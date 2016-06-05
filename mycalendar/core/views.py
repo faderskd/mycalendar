@@ -14,6 +14,7 @@ def login(request, **kwargs):
     """
     If user is signed in redirects to main page, if not returns base django authentication view
     """
+    print(request.POST)
     if request.user.is_authenticated():
         return redirect(settings.LOGIN_REDIRECT_URL)
     return auth_login(request, authentication_form=LoginForm, **kwargs)
